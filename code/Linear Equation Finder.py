@@ -13,7 +13,7 @@ def equation(pointA, pointB):
         intersect = y1 - grad * x1
         print('The equation of the line is y = {}x + {}'.format(grad, intersect))
     except ZeroDivisionError:
-        print('The equation of the line is undefined')
+        print('The equation of the line is x = {}'.format(x1))
 
 def string_handler(coordinate):
     # Coordinate is in string format (x, y), with or without spaces
