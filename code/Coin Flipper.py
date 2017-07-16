@@ -1,7 +1,7 @@
 from random import randint
 
 
-exit_loop = 20
+exit_loop = int(input('How many coins do you want in a row: '))
 flips = 0
 coins = []
 
