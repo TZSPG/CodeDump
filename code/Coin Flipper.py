@@ -1,25 +1,28 @@
 from random import randint
 
 
-exit_loop = int(input('How many coins do you want in a row: '))
-flips = 0
-coins = []
+def coin_flip(length):
+    flips = 0
+    coins = [randint(0, 1)]
+    while len(coins) < length:
+        new_coin = randint(0, 1)
+        flips += 1
+        print('flip {}: {}'.format(flips, new_coin))
+        if new_coin in coins or len(coins) == 0:
+            coins.append(new_coin)
+        else:
+            coins = [new_coin]
+    return coins[0], flips
 
 
-while len(coins) < exit_loop:
-    new_coin = randint(0,1)
-    print('flip {}: {}'.format(flips, new_coin))
-    flips += 1          # Kept outside following if statement to follow DRY principle
-    if new_coin in coins or len(coins) == 0:
-        coins.append(new_coin)
-    else:
-        coins = []
-
-def coin_state():
+def coin_state(coin_index):
     """Because globals suck"""
     possible_state = ['heads', 'tails']
-    return possible_state[coins[0] - 1]
+    return possible_state[coin_index]
 
 
-message = '\n{} {} were flipped in a row. \nNumber of flips taken: {}'
-print(message.format(len(coins), coin_state(), flips - 1))
+if __name__ == '__main__':
+    user_max = int(input('How many coins do you want in a row: '))
+    coin, flips_taken = coin_flip(user_max)
+    message = '\n{} {} were flipped in a row. \nNumber of flips taken: {}'
+    print(message.format(user_max, coin_state(coin), flips_taken))
