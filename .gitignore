@@ -99,3 +99,6 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+# PyCharm junk
+E:\Desktoop\Git-Test\code\.idea
