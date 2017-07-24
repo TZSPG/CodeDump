@@ -1,4 +1,5 @@
 from random import randint
+from os import system
 
 
 def coin_flip(length):
@@ -24,5 +25,6 @@ def coin_state(coin_index):
 if __name__ == '__main__':
     user_max = int(input('How many coins do you want in a row: '))
     coin, flips_taken = coin_flip(user_max)
-    message = '\n{} {} were flipped in a row. \nNumber of flips taken: {}'
+    message = '\n{0} {1} were flipped in a row. \nNumber of flips taken: {2}\n'
     print(message.format(user_max, coin_state(coin), flips_taken))
+    system('pause')
