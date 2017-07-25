@@ -1,9 +1,10 @@
 def unicode_index(letter):
+    # TODO Unused function. Use or cleanp please
     if letter.isalpha():
         return ord(letter.lower()) - 96
 
 
-def caesar(line, shift):
+def shifter(line, shift):
     """Applies caesar shift to line"""
     return line[shift:] + line[:shift]
 
@@ -15,7 +16,7 @@ def file_handler(filename):
 
 
 def encrypt(line, line_index):
-    shifted = caesar(line, line_index + 1)
+    shifted = shifter(line, line_index + 1)
     unicoded = ' '.join(str(ord(letter) + index) for index, letter in enumerate(shifted))
     return unicoded
 
@@ -25,7 +26,7 @@ def decrypt(line, line_index):
     caesar_shift = (line_index + 1) * -1
     plain_unicode = ''.join(chr(num - index) for index, num in enumerate(unicode_nums))
 
-    return caesar(plain_unicode, caesar_shift)
+    return shifter(plain_unicode, caesar_shift)
 
 
 def output_file(code, filename):
