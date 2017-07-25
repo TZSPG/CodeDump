@@ -16,11 +16,7 @@ def file_handler(filename):
 def encrypt(line):
     # TODO make unicode function start at the index of the line itself
     caesar_shift = 1
-    # for letter in line[:10]:
-    #     caesar_shift = unicode_index(letter)
-    #     if caesar_shift is not None:
-    #         break
-    # TODO Think about abstracting to function?
+
     shifted = caesar(line, caesar_shift)
     unicoded = ' '.join(str(ord(letter) + index) for index, letter in enumerate(shifted))
     return unicoded
@@ -32,15 +28,10 @@ def decrypt(line):
     caesar_shift = -1
     plain_unicode = ''.join(chr(num - index) for index, num in enumerate(unicode_nums))
 
-    # for letter in plain_unicode[11::-1]:
-    #     caesar_shift = unicode_index(letter)
-    #     if caesar_shift is not None:
-    #         break
-
     return caesar(plain_unicode, caesar_shift)
 
 
-def main():
+def test():
     # TODO Exception handling
     scramble = []
     filename = 'test-file.txt'
@@ -56,11 +47,4 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
-# print(decrypt(scramble.rstrip(' ')))
-
-# test_line = "akwhegkwem klwane la;w,'eaw jiorl;kao;we',wal;rmawe,"
-# encry = encrypt(test_line)
-# print(encry)
-# decoded = decrypt(encry)
-# print(decoded)
+    test()
