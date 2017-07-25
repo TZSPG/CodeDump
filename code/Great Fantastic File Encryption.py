@@ -14,18 +14,15 @@ def file_handler(filename):
         return [line.rstrip('\n') for line in file.readlines()]
 
 
-def encrypt(line):
-    # TODO make unicode function start at the index of the line itself
-    caesar_shift = 1
-
-    shifted = caesar(line, caesar_shift)
+def encrypt(line, line_index):
+    shifted = caesar(line, line_index + 1)
     unicoded = ' '.join(str(ord(letter) + index) for index, letter in enumerate(shifted))
     return unicoded
 
 
-def decrypt(line):
+def decrypt(line, line_index):
     unicode_nums = [int(x) for x in line.split(' ')]
-    caesar_shift = -1
+    caesar_shift = (line_index + 1) * -1
     plain_unicode = ''.join(chr(num - index) for index, num in enumerate(unicode_nums))
 
     return caesar(plain_unicode, caesar_shift)
@@ -37,29 +34,14 @@ def output_file(code, filename):
             file.write(line + '\n')
 
 
-def test():
-    # TODO Exception handling
-    scramble = []
-    filename = 'test-file'
-    descramble = ''
-    for line in file_handler(filename):
-        scramble.append(encrypt(line))
-
-    for line in scramble:
-        if line != '\n':
-            descramble += decrypt(line) + '\n'
-
-    print(descramble)
-
-
 def interface():
     choice = input("Welcome to Tynan's file encryption. Do you wish to encrypt of decrypt? ")
     if choice.lower() in 'encrypt':
         file = input("Encrypt selected. Please specify the file to be encrypted (with extension): ")
         while True:
             try:
-                scramble = [encrypt(line) for line in file_handler(file)]
-                output_file(scramble, file + ' - ENCRYPTED.txt' )
+                scramble = [encrypt(line, index) for index, line in enumerate(file_handler(file))]
+                output_file(scramble, file + ' - ENCRYPTED.txt')
                 break
             except FileNotFoundError:
                 file = input("That file doesn't exist. Please make sure the specified file "
@@ -67,15 +49,18 @@ def interface():
         print("Encryption successful. Thank you for choosing Tynan's file encryption!")
 
     elif choice.lower() in 'decrypt':
-        file = input("Decryption selected. Please specify the file to be decrypted (with .txt extension): ")
+        file = input("Decrypt selected. Please specify the file to be decrypted (with .txt extension): ")
         while True:
             try:
-                lines = [decrypt(line) for line in file_handler(file)]
+                lines = [decrypt(line, index) for index, line in enumerate(file_handler(file))]
                 output_file(lines, file + ' - DECRYPTED.txt')
                 break
             except FileNotFoundError:
                 file = input("That file doesn't exist. Please make sure the specified file "
                              "contains the extension .txt: ")
+            except ValueError:
+                file = input('This file cannot be decrypted. Only untampered files encrypted with the '
+                             'encryptor bundled with this decryptor can be decrypted: ')
         print("Decryption successful. Thank you for choosing Tynan's file encryption!")
 
 if __name__ == '__main__':
