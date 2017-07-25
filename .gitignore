@@ -104,4 +104,4 @@ ENV/
 code/.idea/
 
 #test file for encryptor
-/code/*.txt
+code/test-file.txt
