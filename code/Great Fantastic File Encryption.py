@@ -1,9 +1,3 @@
-def unicode_index(letter):
-    # TODO Unused function. Use or cleanp please
-    if letter.isalpha():
-        return ord(letter.lower()) - 96
-
-
 def shifter(line, shift):
     """Applies caesar shift to line"""
     return line[shift:] + line[:shift]
@@ -15,24 +9,25 @@ def file_handler(filename):
         return [line.rstrip('\n') for line in file.readlines()]
 
 
+def output_file(code, filename):
+    """Outputs elements in a list to a file"""
+    with open(filename, 'w') as file:
+        for line in code:
+            file.write(line + '\n')
+
+
 def encrypt(line, line_index):
     shifted = shifter(line, line_index + 1)
-    unicoded = ' '.join(str(ord(letter) + index) for index, letter in enumerate(shifted))
+    unicoded = ' '.join(str(ord(letter) + index*len(shifted)) for index, letter in enumerate(shifted))
     return unicoded
 
 
 def decrypt(line, line_index):
     unicode_nums = [int(x) for x in line.split(' ')]
     caesar_shift = (line_index + 1) * -1
-    plain_unicode = ''.join(chr(num - index) for index, num in enumerate(unicode_nums))
+    plain_unicode = ''.join(chr(num - index*len(unicode_nums)) for index, num in enumerate(unicode_nums))
 
     return shifter(plain_unicode, caesar_shift)
-
-
-def output_file(code, filename):
-    with open(filename, 'w') as file:
-        for line in code:
-            file.write(line + '\n')
 
 
 def interface():
