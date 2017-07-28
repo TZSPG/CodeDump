@@ -1,5 +1,5 @@
 def shifter(line, shift):
-    """Applies caesar shift to line"""
+    """Shifts each letter along the string, and carries over any characters that overflow"""
     return line[shift:] + line[:shift]
 
 
