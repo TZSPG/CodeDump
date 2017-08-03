@@ -52,4 +52,6 @@ async def on_ready():
     print(client.user.id)
     print('------')
 
-client.run('MzQyMjU0MTMzNTQzMzA1MjE2.DGM82w.EVRtBtX91SHKFq8k0cKzYMJbPAY')
+
+with open('bot-token.txt','r') as file:
+    client.run(file.read())
