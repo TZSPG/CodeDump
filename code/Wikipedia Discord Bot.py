@@ -12,14 +12,16 @@ Pattern: Capitalised snake case
 '''
 
 #TODO https://en.wikipedia.org/w/index.php?title=Iphone&redirect=no
-#TODO capitalisation flag (--U)
+
 
 import discord
+import urllib.request
 
 client = discord.Client()
+game = discord.Game()
+
 
 def to_snake(spaced_words, flag):
-    # TODO special cases, thinking of just brute force
     words = [word for word in spaced_words.split(' ')]
     if not flag:
         words = [word.lower() for word in words]
@@ -41,6 +43,13 @@ async def on_message(message):
         if message.content.endswith('--U'):
             message.content = message.content.rstrip(' --U')
             keep_capital = True
+        if message.content.endswith('--random'):
+            opener = urllib.request.build_opener()
+            request = urllib.request.Request('https://en.wikipedia.org/wiki/Special:Random')
+            u = opener.open(request)
+            await client.send_message(message.channel,
+                                      u.geturl())
+            return
         msg = message.content[len(trigger_phrase)+1::]
         await client.send_message(message.channel, 'https://en.wikipedia.org/wiki/{}'.format(to_snake(msg, keep_capital)))
 
@@ -51,6 +60,12 @@ async def on_ready():
     print(client.user.name)
     print(client.user.id)
     print('------')
+
+    game.name = 'with the grandkids'
+    await client.change_status(game)
+
+    for channel in client.get_all_channels():
+        await client.send_message(channel, 'Wikibot is now operational! Type "!wikibot" to use.')
 
 
 with open('bot-token.txt','r') as file:
