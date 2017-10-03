@@ -1,3 +1,6 @@
+import re
+
+
 def equation(point_a, point_b):
     x1 = int(string_handler(point_a)[0])
     y1 = int(string_handler(point_a)[1])
@@ -19,12 +22,7 @@ def gradient(x1, x2, y1, y2):
 
 def string_handler(coordinate):
     """Coordinate is in string format (x, y), with or without spaces"""
-    if coordinate[0] == '(' and coordinate[-1] == ')':
-        coordinate = coordinate[1:-1]
-    coordinate = coordinate.split(',')
-    x = coordinate[0]
-    y = coordinate[1].lstrip(' ')
-    return x, y
+    return re.fullmatch(r'\(?(\d+)\,\s?(\d+)\)?', coordinate).group(1, 2)
 
 
 if __name__ == '__main__':
